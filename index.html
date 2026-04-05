@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,218 +8,237 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f0f0f;
-  --bg2: #171717;
-  --bg3: #1f1f1f;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.16);
-  --text: #f0f0f0;
-  --text2: #888;
-  --text3: #555;
-  --accent: #e8ff47;
-  --accent-dim: rgba(232,255,71,0.10);
-  --radius: 8px;
-  --radius-lg: 14px;
+  --bg:   #0f0f0f;
+  --bg2:  #171717;
+  --bg3:  #1f1f1f;
+  --bg4:  #252525;
+  --b:    rgba(255,255,255,0.08);
+  --b2:   rgba(255,255,255,0.16);
+  --t:    #f0f0f0;
+  --t2:   #888;
+  --t3:   #555;
+  --acc:  #e8ff47;
+  --acc-d:rgba(232,255,71,0.10);
+  --r:    8px;
+  --rl:   14px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t); font-size: 14px; }
 
-.app { display: grid; grid-template-columns: 340px 1fr; height: 100vh; overflow: hidden; }
-.sidebar {
-  background: var(--bg2); border-right: 1px solid var(--border);
-  padding: 20px; overflow-y: auto;
-  display: flex; flex-direction: column; gap: 16px; height: 100vh;
-}
-.main {
-  padding: 20px; display: flex; flex-direction: column;
-  gap: 14px; height: 100vh; overflow: hidden;
-}
+/* ── Layout ── */
+.app { display: grid; grid-template-columns: 320px 1fr; height: 100vh; overflow: hidden; }
+.sidebar { background: var(--bg2); border-right: 1px solid var(--b); padding: 18px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; height: 100vh; }
+.main    { padding: 18px; display: flex; flex-direction: column; gap: 12px; height: 100vh; overflow: hidden; }
 
-.logo { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); letter-spacing: 0.12em; text-transform: uppercase; }
-.logo span { color: var(--accent); }
-.logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
-.divider { height: 1px; background: var(--border); flex-shrink: 0; }
-.sec-title { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; }
+/* ── Typography ── */
+.logo    { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--t3); letter-spacing: .12em; text-transform: uppercase; }
+.logo em { color: var(--acc); font-style: normal; }
+.logo-sub{ font-size: 11px; color: var(--t3); margin-top: 2px; }
+.divider { height: 1px; background: var(--b); flex-shrink: 0; }
+.lbl    { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .1em; }
 
+/* ── Form elements ── */
 select, input[type=text] {
-  background: var(--bg3); border: 1px solid var(--border);
-  color: var(--text); border-radius: var(--radius);
+  background: var(--bg3); border: 1px solid var(--b);
+  color: var(--t); border-radius: var(--r);
   padding: 7px 10px; font-family: 'DM Sans', sans-serif;
   font-size: 13px; width: 100%; outline: none;
-  transition: border-color 0.15s; appearance: none; -webkit-appearance: none;
+  transition: border-color .15s; appearance: none; -webkit-appearance: none;
   height: 34px;
 }
 select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px;
 }
-select:focus, input[type=text]:focus { border-color: var(--border2); }
+select:focus, input:focus { border-color: var(--b2); }
 select option { background: #1f1f1f; }
+input[type=text]::placeholder { color: var(--t3); }
 
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; }
+/* search wrapper */
+.search-wrap { position: relative; }
+.search-wrap input { padding-left: 30px; }
+.search-wrap svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+
+/* ── Field grid ── */
+.frow  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; }
 .field { display: flex; flex-direction: column; gap: 5px; }
 .field + .field { margin-top: 8px; }
 
-.color-strip { display: flex; flex-wrap: wrap; gap: 5px; }
-.color-swatch {
-  width: 24px; height: 24px; border-radius: 50%;
-  border: 2px solid transparent; cursor: pointer;
-  transition: transform 0.12s, border-color 0.12s; flex-shrink: 0;
-}
-.color-swatch:hover { transform: scale(1.18); }
-.color-swatch.active { border-color: var(--accent); transform: scale(1.18); }
-
-.extra-params { margin-top: 6px; }
-.extra-params summary {
-  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 0.1em;
+/* ── Extra params ── */
+.extra { margin-top: 4px; }
+.extra summary {
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--t3);
+  text-transform: uppercase; letter-spacing: .1em;
   cursor: pointer; list-style: none; display: flex; align-items: center; gap: 5px;
   user-select: none; padding: 2px 0;
 }
-.extra-params summary::-webkit-details-marker { display: none; }
-.extra-params summary::before { content: '▶'; font-size: 7px; transition: transform 0.15s; }
-.extra-params[open] summary::before { transform: rotate(90deg); }
-.extra-params summary:hover { color: var(--text2); }
-.extra-params .field { margin-top: 8px; }
+.extra summary::-webkit-details-marker { display: none; }
+.extra summary::before { content: '▶'; font-size: 7px; transition: transform .15s; }
+.extra[open] summary::before { transform: rotate(90deg); }
+.extra summary:hover { color: var(--t2); }
+.extra .field { margin-top: 8px; }
 
-.angle-mode-toggle { display: flex; gap: 4px; }
-.mode-btn {
-  flex: 1; padding: 5px 8px;
-  background: var(--bg3); border: 1px solid var(--border);
-  color: var(--text2); border-radius: var(--radius);
-  font-family: 'DM Mono', monospace; font-size: 10px;
-  text-transform: uppercase; letter-spacing: 0.08em;
-  cursor: pointer; transition: all 0.15s;
+/* ── Colors ── */
+.color-strip { display: flex; flex-wrap: wrap; gap: 5px; }
+.swatch {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid transparent; cursor: pointer;
+  transition: transform .12s, border-color .12s; flex-shrink: 0;
 }
-.mode-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+.swatch:hover { transform: scale(1.2); }
+.swatch.on { border-color: var(--acc); transform: scale(1.2); }
 
-.angle-group-label {
-  font-family: 'DM Mono', monospace; font-size: 9px; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 0.1em; margin: 8px 0 5px;
+/* ── Angle section ── */
+.angle-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.toggle-row { display: flex; gap: 3px; }
+.tgl-btn {
+  padding: 4px 10px; border-radius: var(--r);
+  background: var(--bg3); border: 1px solid var(--b);
+  color: var(--t2); font-family: 'DM Mono', monospace; font-size: 10px;
+  text-transform: uppercase; letter-spacing: .07em; cursor: pointer; transition: all .15s;
 }
+.tgl-btn.on { background: var(--acc-d); border-color: var(--acc); color: var(--acc); }
 
-/* LIST */
-.angle-list { display: flex; flex-direction: column; gap: 3px; }
-.angle-list-item {
-  display: flex; align-items: center;
-  border-radius: var(--radius); border: 1px solid transparent;
-  cursor: pointer; transition: all 0.12s; overflow: hidden; height: 46px;
-}
-.angle-list-item:hover { background: var(--bg3); border-color: var(--border); }
-.angle-list-item.active { background: var(--accent-dim); border-color: var(--accent); }
-
-.angle-list-thumb {
-  width: 74px; height: 46px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  position: relative; overflow: hidden;
-}
-.angle-list-thumb img {
-  width: 70px; height: 42px; object-fit: contain;
-  opacity: 0; transition: opacity 0.25s; display: block; position: relative; z-index: 1;
-}
-.angle-list-thumb img.loaded { opacity: 1; }
-.thumb-ph { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-.thumb-ph span { width: 32px; height: 8px; background: var(--border); border-radius: 3px; display: block; }
-
-.angle-list-info { display: flex; align-items: center; gap: 8px; padding: 0 10px 0 6px; flex: 1; min-width: 0; }
-.a-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text2); flex-shrink: 0; width: 26px; }
-.angle-list-item.active .a-num { color: var(--accent); }
-.a-label { font-size: 12px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.angle-list-item.active .a-label { color: var(--text); }
-
-/* no-thumb list item (30 deg) */
-.angle-list-item.no-thumb { height: 34px; }
-.angle-list-item.no-thumb .angle-list-info { padding-left: 10px; }
-
-/* GRID */
+/* angle grid */
 .angle-grid { display: flex; flex-wrap: wrap; gap: 5px; }
-.angle-btn {
-  width: 72px; height: 58px;
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--radius); cursor: pointer;
+.a-btn {
+  width: 84px; background: var(--bg3); border: 1px solid var(--b);
+  border-radius: var(--r); cursor: pointer;
   display: flex; flex-direction: column; align-items: center;
-  justify-content: flex-end; padding-bottom: 4px;
-  transition: border-color 0.12s, background 0.12s;
-  overflow: hidden; position: relative;
+  overflow: hidden; transition: border-color .12s, background .12s; padding-bottom: 5px;
 }
-.angle-btn:hover { border-color: var(--border2); }
-.angle-btn.active { border-color: var(--accent); background: var(--accent-dim); }
-.angle-btn img {
-  position: absolute; top: 3px; left: 50%; transform: translateX(-50%);
-  height: 40px; width: 68px; object-fit: contain;
-  opacity: 0; transition: opacity 0.25s;
+.a-btn:hover { border-color: var(--b2); }
+.a-btn.on { border-color: var(--acc); background: var(--acc-d); }
+.a-thumb {
+  width: 100%; height: 52px; position: relative;
+  display: flex; align-items: center; justify-content: center;
 }
-.angle-btn img.loaded { opacity: 1; }
-.angle-btn .a-num {
-  position: relative; z-index: 1;
-  background: var(--bg3); padding: 0 2px; border-radius: 3px; line-height: 1;
-  font-size: 10px;
-}
-.angle-btn.active .a-num { color: var(--accent); background: transparent; }
-.a-placeholder {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%);
-  width: 36px; height: 10px; border-radius: 3px; background: var(--border);
-}
-.a-placeholder.hidden { display: none; }
+.a-thumb img { width: 80px; height: 48px; object-fit: contain; opacity: 0; transition: opacity .25s; display: block; }
+.a-thumb img.vis { opacity: 1; }
+.a-thumb .a-ph { position: absolute; width: 36px; height: 9px; border-radius: 3px; background: var(--b); }
+.a-label-text { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--t3); margin-top: 2px; text-align: center; line-height: 1.3; padding: 0 3px; }
+.a-btn.on .a-label-text { color: var(--acc); }
 
-/* PREVIEW */
+/* 30-deg compact list */
+.angle-30-grid { display: flex; flex-wrap: wrap; gap: 4px; }
+.a30-btn {
+  width: 40px; height: 28px;
+  background: var(--bg3); border: 1px solid var(--b);
+  border-radius: 6px; cursor: pointer;
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--t3);
+  transition: all .12s; display: flex; align-items: center; justify-content: center;
+}
+.a30-btn:hover { border-color: var(--b2); color: var(--t2); }
+.a30-btn.on { border-color: var(--acc); background: var(--acc-d); color: var(--acc); }
+
+/* ── Preview ── */
 .preview-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); flex: 1; min-height: 0;
+  background: var(--bg2); border: 1px solid var(--b);
+  border-radius: var(--rl); flex: 1; min-height: 0;
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
 }
-.preview-card img { max-width: 100%; max-height: 100%; display: block; animation: fadeIn 0.3s ease; }
-@keyframes fadeIn { from { opacity:0; transform:scale(0.98); } to { opacity:1; transform:scale(1); } }
-.preview-placeholder { text-align: center; }
-.preview-placeholder .big { font-size: 40px; margin-bottom: 10px; opacity: 0.12; }
-.preview-placeholder p { font-size: 13px; color: var(--text3); }
-.preview-loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--bg2); }
-.spinner { width: 22px; height: 22px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.preview-card img { max-width: 100%; max-height: 100%; display: block; animation: fi .3s ease; }
+@keyframes fi { from { opacity:0; transform:scale(.98); } to { opacity:1; transform:scale(1); } }
+.preview-ph { text-align: center; }
+.preview-ph .big { font-size: 36px; margin-bottom: 8px; opacity: .1; }
+.preview-ph p  { font-size: 13px; color: var(--t3); }
+.preview-load  { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--bg2); }
+.spinner { width: 22px; height: 22px; border: 2px solid var(--b2); border-top-color: var(--acc); border-radius: 50%; animation: sp .7s linear infinite; }
+@keyframes sp { to { transform: rotate(360deg); } }
 
+/* ── URL bar ── */
 .url-bar {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 8px 12px;
-  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3);
+  background: var(--bg2); border: 1px solid var(--b);
+  border-radius: var(--r); padding: 7px 11px;
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--t3);
   word-break: break-all; line-height: 1.6; flex-shrink: 0;
 }
-.param-key { color: var(--text3); }
-.param-val { color: var(--accent); }
+.pk { color: var(--t3); }
+.pv { color: var(--acc); }
 
-.actions { display: flex; gap: 8px; flex-shrink: 0; }
+/* ── Buttons ── */
+.actions { display: flex; gap: 7px; flex-shrink: 0; }
 .btn {
-  padding: 9px 16px; border-radius: var(--radius);
-  border: 1px solid var(--border2); background: var(--bg3);
-  color: var(--text); font-family: 'DM Sans', sans-serif;
-  font-size: 13px; cursor: pointer; transition: all 0.15s; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: var(--r);
+  border: 1px solid var(--b2); background: var(--bg3);
+  color: var(--t); font-family: 'DM Sans', sans-serif;
+  font-size: 13px; cursor: pointer; transition: all .15s; white-space: nowrap;
 }
-.btn:hover { background: var(--bg2); }
-.btn-primary { background: var(--accent); color: #0f0f0f; border-color: var(--accent); font-weight: 500; }
+.btn:hover { background: var(--bg4); }
+.btn svg { flex-shrink: 0; }
+.btn-primary { background: var(--acc); color: #0f0f0f; border-color: var(--acc); font-weight: 500; }
 .btn-primary:hover { background: #d4eb3a; border-color: #d4eb3a; }
-.btn-icon { padding: 9px 13px; }
+.btn-icon { padding: 8px 11px; }
+
+/* ── Stale indicator ── */
+.preview-card.stale { border-color: rgba(255,255,255,0.04); }
+.preview-card.stale img { opacity: 0.45; transition: opacity .2s; }
+.stale-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(0,0,0,0.7); border: 1px solid var(--b2);
+  color: var(--t2); font-family: 'DM Mono', monospace; font-size: 10px;
+  padding: 3px 8px; border-radius: 20px; pointer-events: none;
+  backdrop-filter: blur(4px);
+}
+
+/* ── Meta bar ── */
+.meta-bar {
+  display: none; align-items: center; gap: 14px; flex-shrink: 0;
+  font-family: 'DM Mono', monospace; font-size: 11px; color: var(--t3);
+}
+.meta-bar.vis { display: flex; }
+.meta-bar span { color: var(--t2); }
+
+/* ── History ── */
+.history-wrap { margin-top: 2px; }
+.history-wrap summary {
+  font-family: 'DM Mono', monospace; font-size: 10px; color: var(--t3);
+  text-transform: uppercase; letter-spacing: .1em;
+  cursor: pointer; list-style: none; display: flex; align-items: center; gap: 5px;
+  user-select: none; padding: 2px 0;
+}
+.history-wrap summary::-webkit-details-marker { display: none; }
+.history-wrap summary::before { content: '▶'; font-size: 7px; transition: transform .15s; }
+.history-wrap[open] summary::before { transform: rotate(90deg); }
+.history-wrap summary:hover { color: var(--t2); }
+.history-list { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+.h-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 8px; border-radius: var(--r);
+  border: 1px solid transparent; cursor: pointer;
+  transition: all .12s;
+}
+.h-item:hover { background: var(--bg3); border-color: var(--b); }
+.h-title { font-size: 12px; color: var(--t2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.h-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--t3); flex-shrink: 0; }
+.h-empty { font-size: 12px; color: var(--t3); padding: 4px 8px; }
 </style>
 </head>
 <body>
 <div class="app">
 
+<!-- ════ SIDEBAR ════ -->
 <aside class="sidebar">
+
   <div>
-    <div class="logo"><span>▲</span> imagin.studio</div>
+    <div class="logo"><em>▲</em> imagin.studio</div>
     <div class="logo-sub">car image configurator</div>
   </div>
 
   <div class="divider"></div>
 
+  <!-- API -->
   <div>
-    <div class="sec-title" style="margin-bottom:8px">API Settings</div>
-    <div class="field-row">
+    <div class="lbl" style="margin-bottom:8px">API Settings</div>
+    <div class="frow">
       <div class="field">
-        <label class="sec-title">Customer ID</label>
+        <label class="lbl">Customer ID</label>
         <input type="text" id="customer" value="test" placeholder="your-id">
       </div>
       <div class="field">
-        <label class="sec-title">Zoom type</label>
+        <label class="lbl">Zoom type</label>
         <select id="zoomtype">
           <option value="fullscreen">fullscreen</option>
           <option value="standard">standard</option>
@@ -230,30 +250,48 @@ select option { background: #1f1f1f; }
 
   <div class="divider"></div>
 
+  <!-- Vehicle -->
   <div>
-    <div class="sec-title" style="margin-bottom:8px">Vehicle</div>
-    <div class="field-row">
+    <div class="lbl" style="margin-bottom:8px">Vehicle</div>
+
+    <div class="frow">
       <div class="field">
-        <label class="sec-title">Марка</label>
-        <select id="make"></select>
+        <label class="lbl">Марка</label>
+        <div class="search-wrap">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="5" cy="5" r="3.5" stroke="#555" stroke-width="1.2"/>
+            <line x1="7.9" y1="7.9" x2="10.5" y2="10.5" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <input type="text" id="make-search" placeholder="Audi, BMW…" autocomplete="off">
+        </div>
+        <select id="make" size="1"></select>
       </div>
       <div class="field">
-        <label class="sec-title">Модель</label>
-        <select id="model"></select>
+        <label class="lbl">Модель</label>
+        <div class="search-wrap">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="5" cy="5" r="3.5" stroke="#555" stroke-width="1.2"/>
+            <line x1="7.9" y1="7.9" x2="10.5" y2="10.5" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <input type="text" id="model-search" placeholder="A4, X5…" autocomplete="off">
+        </div>
+        <select id="model" size="1"></select>
       </div>
     </div>
-    <div class="field">
-      <label class="sec-title">Год</label>
+
+    <div class="field" style="margin-top:8px">
+      <label class="lbl">Год</label>
       <select id="year"></select>
     </div>
-    <details class="extra-params">
+
+    <details class="extra">
       <summary>Доп. параметры</summary>
       <div class="field">
-        <label class="sec-title">Model range <span style="color:var(--text3);font-size:9px;text-transform:none;letter-spacing:0">(кузов)</span></label>
+        <label class="lbl">Model range <span style="color:var(--t3);font-size:9px;text-transform:none;letter-spacing:0">(кузов)</span></label>
         <input type="text" id="modelRange" placeholder="sedan, avant, suv…">
       </div>
       <div class="field">
-        <label class="sec-title">Model variant <span style="color:var(--text3);font-size:9px;text-transform:none;letter-spacing:0">(версия)</span></label>
+        <label class="lbl">Model variant <span style="color:var(--t3);font-size:9px;text-transform:none;letter-spacing:0">(версия)</span></label>
         <input type="text" id="modelVariant" placeholder="sport, s-line…">
       </div>
     </details>
@@ -261,8 +299,9 @@ select option { background: #1f1f1f; }
 
   <div class="divider"></div>
 
+  <!-- Color -->
   <div>
-    <div class="sec-title" style="margin-bottom:8px">Цвет</div>
+    <div class="lbl" style="margin-bottom:8px">Цвет</div>
     <div class="color-strip" id="color-strip"></div>
     <div style="margin-top:8px">
       <input type="text" id="paintdesc" placeholder="или вручную: pearl-white, matte-black…" style="font-family:'DM Mono',monospace;font-size:12px">
@@ -271,63 +310,166 @@ select option { background: #1f1f1f; }
 
   <div class="divider"></div>
 
+  <!-- Angles -->
+  <details class="history-wrap" id="history-wrap">
+    <summary>История</summary>
+    <div class="history-list" id="history-list">
+      <div class="h-empty">Пусто — загрузи первое фото</div>
+    </div>
+  </details>
+
+  <div class="divider"></div>
+
   <div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-      <span class="sec-title">Ракурс</span>
-      <div class="angle-mode-toggle">
-        <button class="mode-btn active" id="mode-list" onclick="setAngleMode('list')">Список</button>
-        <button class="mode-btn" id="mode-grid" onclick="setAngleMode('grid')">Сетка</button>
+    <div class="angle-header">
+      <span class="lbl">Ракурс</span>
+      <div class="toggle-row">
+        <button class="tgl-btn on" id="tab-std" onclick="setAngleTab('std')">Стандартные</button>
+        <button class="tgl-btn"    id="tab-all" onclick="setAngleTab('all')">Все (30°)</button>
       </div>
     </div>
-    <div id="angles-container"></div>
+    <div id="angle-std">
+      <div class="angle-grid" id="std-grid"></div>
+    </div>
+    <div id="angle-all" style="display:none">
+      <div class="angle-30-grid" id="all-grid"></div>
+    </div>
   </div>
+
 </aside>
 
+<!-- ════ MAIN ════ -->
 <main class="main">
+
   <div class="preview-card" id="preview-card">
-    <div class="preview-placeholder">
+    <div class="preview-ph">
       <div class="big">◻</div>
       <p>Настрой параметры и нажми «Загрузить»</p>
     </div>
   </div>
-  <div class="url-bar" id="url-bar"><span style="color:var(--text3)">URL появится здесь</span></div>
-  <div class="actions">
-    <button class="btn btn-primary" onclick="loadPreview()">Загрузить</button>
-    <button class="btn" onclick="copyUrl()">Копировать ссылку</button>
-    <button class="btn btn-icon" onclick="openUrl()" title="Открыть в новой вкладке">↗</button>
-  </div>
-</main>
 
+  <div class="meta-bar" id="meta-bar">
+    размер: <span id="meta-size">—</span>
+    &nbsp;·&nbsp; пикселей: <span id="meta-px">—</span>
+    &nbsp;·&nbsp; угол: <span id="meta-angle">—</span>
+  </div>
+
+  <div class="url-bar" id="url-bar">
+    <span style="color:var(--t3)">URL появится здесь</span>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" onclick="loadPreview()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#0f0f0f" stroke-width="1.4"/><path d="M5 7l1.5 1.5L9.5 5" stroke="#0f0f0f" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Загрузить
+    </button>
+    <button class="btn" id="btn-copy-img" onclick="copyImage()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 10V2h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Копировать изображение
+    </button>
+    <button class="btn" onclick="copyMakeModel()" title="Копировать марку и модель">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 10V2h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Копировать название
+    </button>
+    <button class="btn btn-icon" onclick="openUrl()" title="Открыть в новой вкладке">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6 3H3a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M9 2h3v3M8 6l4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+</main>
 </div>
+
 <script>
+/* ════ DATA ════ */
 const MAKES = {
-  "audi":["a1","a3","a4","a5","a6","a7","a8","q2","q3","q4-e-tron","q5","q6-e-tron","q7","q8","e-tron","e-tron-gt","rs3","rs4","rs5","rs6","rs7","tt"],
-  "bmw":["1-series","2-series","3-series","4-series","5-series","7-series","8-series","x1","x2","x3","x4","x5","x6","x7","i4","i5","i7","ix","m2","m3","m4","m5"],
-  "mercedes-benz":["a-class","b-class","c-class","e-class","s-class","cla","cls","gla","glb","glc","gle","gls","eqa","eqb","eqc","eqs","amg-gt"],
-  "volkswagen":["golf","polo","passat","arteon","tiguan","touareg","id-3","id-4","id-5","id-7","t-cross","t-roc","taigo"],
-  "porsche":["911","cayenne","macan","panamera","taycan","718-boxster","718-cayman"],
-  "toyota":["yaris","corolla","camry","rav4","highlander","land-cruiser","prius","c-hr","gr86","gr-yaris","supra","bz4x"],
-  "ford":["fiesta","focus","mustang","explorer","kuga","puma","bronco","ranger","f-150","maverick"],
-  "honda":["civic","accord","cr-v","hr-v","pilot","odyssey","e"],
-  "hyundai":["i10","i20","i30","ioniq","ioniq-5","ioniq-6","tucson","santa-fe","kona","nexo"],
-  "kia":["picanto","rio","ceed","stinger","sportage","sorento","telluride","ev6","niro","soul"],
-  "volvo":["xc40","xc60","xc90","s60","s90","v60","v90","c40","ex30","ex90"],
-  "renault":["clio","megane","captur","kadjar","koleos","zoe","arkana","austral","scenic"],
-  "peugeot":["208","308","508","2008","3008","5008"],
-  "skoda":["fabia","octavia","superb","karoq","kodiaq","enyaq","scala","kamiq"],
-  "seat":["ibiza","leon","arona","ateca","tarraco","formentor"],
-  "cupra":["born","formentor","ateca","terramar"],
-  "mazda":["mazda2","mazda3","mazda6","cx-3","cx-30","cx-5","cx-60","mx-5","mx-30"],
-  "nissan":["micra","juke","qashqai","x-trail","leaf","ariya","patrol"],
-  "subaru":["impreza","legacy","outback","forester","crosstrek","wrx","brz","solterra"],
-  "tesla":["model-3","model-y","model-s","model-x","cybertruck"],
-  "lexus":["is","es","ls","ux","nx","rx","gx","lx","lc","rc"],
-  "land-rover":["defender","discovery","discovery-sport","range-rover","range-rover-sport","range-rover-evoque","range-rover-velar"],
-  "jaguar":["xe","xf","xj","f-type","e-pace","f-pace","i-pace"],
-  "mini":["hatch","convertible","clubman","countryman","electric"],
-  "alfa-romeo":["giulia","stelvio","giulietta","tonale"],
-  "fiat":["500","500x","500l","tipo","panda"],
-  "jeep":["renegade","compass","cherokee","grand-cherokee","wrangler","gladiator","avenger"],
+  "audi":["a1", "a3", "a4", "a5", "a6", "a7", "a8", "q2", "q3", "q4-e-tron", "q5", "q6-e-tron", "q7", "q8", "e-tron", "e-tron-gt", "rs3", "rs4", "rs5", "rs6", "rs7", "tt", "r8"],
+  "bmw":["1-series", "2-series", "3-series", "4-series", "5-series", "6-series", "7-series", "8-series", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "ix1", "ix2", "ix3", "i4", "i5", "i7", "ix", "m2", "m3", "m4", "m5", "m8", "z4"],
+  "mercedes-benz":["a-class", "b-class", "c-class", "e-class", "s-class", "cla", "cls", "gla", "glb", "glc", "gle", "gls", "eqa", "eqb", "eqc", "eqe", "eqs", "amg-gt", "g-class", "v-class", "cle", "gle-coupe", "glc-coupe"],
+  "volkswagen":["polo", "golf", "golf-plus", "passat", "arteon", "tiguan", "touareg", "id-3", "id-4", "id-5", "id-7", "t-cross", "t-roc", "taigo", "amarok", "caddy", "multivan"],
+  "skoda":["fabia", "octavia", "superb", "karoq", "kodiaq", "enyaq", "enyaq-coupe", "scala", "kamiq", "slavia", "kushaq"],
+  "seat":["ibiza", "leon", "arona", "ateca", "tarraco", "formentor", "mii"],
+  "cupra":["born", "formentor", "ateca", "terramar", "tavascan"],
+  "peugeot":["208", "308", "408", "508", "2008", "3008", "5008", "e-208", "e-2008", "e-3008", "landtrek"],
+  "renault":["symbol", "clio", "megane", "captur", "kadjar", "koleos", "zoe", "arkana", "austral", "scenic", "duster", "kiger", "triber"],
+  "citroen":["c3", "c4", "c5", "c3-aircross", "c4-x", "c5-aircross", "c5-x", "berlingo", "e-c4"],
+  "opel":["corsa", "astra", "mokka", "crossland", "grandland", "zafira", "combo", "insignia", "e-corsa", "e-mokka"],
+  "fiat":["500", "500x", "500l", "500e", "tipo", "doblo", "panda", "ducato"],
+  "alfa-romeo":["giulia", "stelvio", "giulietta", "mito", "tonale", "33-stradale"],
+  "volvo":["xc40", "xc60", "xc90", "s60", "s90", "v60", "v90", "c40", "ex30", "ex40", "ex90", "em90"],
+  "mini":["hatch", "convertible", "clubman", "countryman", "electric", "aceman", "cooper"],
+  "porsche":["911", "718-boxster", "718-cayman", "cayenne", "macan", "panamera", "taycan", "taycan-sport-turismo"],
+  "land-rover":["defender", "discovery", "discovery-sport", "range-rover", "range-rover-sport", "range-rover-evoque", "range-rover-velar", "freelander"],
+  "jaguar":["xe", "xf", "xj", "f-type", "e-pace", "f-pace", "i-pace"],
+  "bentley":["continental-gt", "continental-gtc", "flying-spur", "bentayga"],
+  "rolls-royce":["ghost", "phantom", "cullinan", "spectre", "wraith", "dawn"],
+  "aston-martin":["vantage", "db11", "db12", "dbx", "dbs", "vanquish"],
+  "mclaren":["artura", "720s", "750s", "gt", "765lt"],
+  "lamborghini":["huracan", "urus", "revuelto", "urus-se"],
+  "ferrari":["roma", "portofino", "sf90", "f8", "296", "812", "purosangue", "12cilindri"],
+  "maserati":["ghibli", "quattroporte", "levante", "grecale", "mc20", "grancabrio", "granturismo"],
+  "smart":["fortwo", "forfour", "1", "3"],
+  "polestar":["2", "3", "4"],
+  "lotus":["eletre", "emira", "evija"],
+  "ford":["figo", "fiesta", "focus", "mustang", "mustang-mach-e", "explorer", "expedition", "bronco", "bronco-sport", "ranger", "f-150", "f-150-lightning", "everest", "territory", "edge", "escape", "maverick", "kuga", "puma"],
+  "chevrolet":["spark", "aveo", "onix", "cruze", "malibu", "camaro", "corvette", "tahoe", "suburban", "traverse", "trailblazer", "trax", "captiva", "colorado", "silverado", "silverado-ev", "blazer", "equinox", "equinox-ev"],
+  "gmc":["terrain", "acadia", "yukon", "yukon-xl", "sierra", "canyon", "envoy", "envista"],
+  "dodge":["charger", "challenger", "durango", "hornet"],
+  "ram":["1500", "2500", "3500", "promaster"],
+  "jeep":["renegade", "compass", "cherokee", "grand-cherokee", "grand-cherokee-4xe", "wrangler", "wrangler-4xe", "gladiator", "avenger", "wagoneer"],
+  "lincoln":["corsair", "nautilus", "aviator", "navigator"],
+  "cadillac":["ct4", "ct5", "xt4", "xt5", "xt6", "escalade", "lyriq", "optiq"],
+  "tesla":["model-3", "model-y", "model-s", "model-x", "cybertruck"],
+  "rivian":["r1t", "r1s", "r2"],
+  "lucid":["air", "gravity"],
+  "toyota":["yaris", "yaris-cross", "corolla", "corolla-cross", "camry", "rav4", "rav4-prime", "highlander", "land-cruiser", "land-cruiser-prado", "prius", "c-hr", "fortuner", "hilux", "rush", "avanza", "innova", "supra", "bz4x", "crown", "venza", "4runner", "sequoia", "tundra", "gr86", "gr-yaris", "gr-corolla"],
+  "lexus":["is", "es", "gs", "ls", "ux", "nx", "rx", "gx", "lx", "lc", "rc", "rz"],
+  "honda":["jazz", "city", "civic", "accord", "cr-v", "hr-v", "pilot", "odyssey", "passport", "e", "zr-v", "br-v", "wr-v", "brio"],
+  "nissan":["micra", "note", "sunny", "sentra", "altima", "maxima", "tiida", "juke", "qashqai", "x-trail", "murano", "patrol", "armada", "pathfinder", "navara", "leaf", "ariya", "kicks", "magnite", "frontier", "terra", "z"],
+  "infiniti":["q50", "q60", "qx50", "qx55", "qx60", "qx80"],
+  "mazda":["mazda2", "mazda3", "mazda6", "cx-3", "cx-30", "cx-5", "cx-60", "cx-80", "cx-90", "mx-5", "mx-30", "cx-50"],
+  "subaru":["impreza", "legacy", "outback", "forester", "crosstrek", "wrx", "brz", "solterra", "ascent"],
+  "mitsubishi":["mirage", "attrage", "lancer", "eclipse-cross", "asx", "outlander", "outlander-phev", "pajero", "pajero-sport", "l200", "xpander", "colt"],
+  "suzuki":["alto", "swift", "ciaz", "baleno", "vitara", "jimny", "s-cross", "grand-vitara", "xl7", "celerio", "ertiga", "dzire", "fronx"],
+  "isuzu":["d-max", "mu-x", "trooper"],
+  "daihatsu":["sirion", "terios", "rocky", "xenia", "ayla", "sigra"],
+  "hyundai":["i10", "i20", "i30", "accent", "elantra", "sonata", "azera", "tucson", "santa-fe", "palisade", "ioniq", "ioniq-5", "ioniq-5-n", "ioniq-6", "ioniq-9", "kona", "kona-electric", "staria", "creta", "venue", "nexo", "casper"],
+  "kia":["picanto", "rio", "stonic", "cerato", "k5", "sportage", "sorento", "telluride", "ev3", "ev6", "ev6-gt", "ev9", "niro", "niro-ev", "carnival", "stinger", "soul", "tasman"],
+  "genesis":["g70", "g80", "g90", "gv60", "gv70", "gv80"],
+  "ssangyong":["tivoli", "korando", "rexton", "musso", "torres"],
+  "byd":["atto-2", "atto-3", "seal", "seal-u", "han", "tang", "song", "song-plus", "song-pro", "song-l", "yuan-plus", "dolphin", "seagull", "shark", "sealion-6", "sealion-7", "destroyer-05"],
+  "chery":["tiggo-2", "tiggo-4", "tiggo-4-pro", "tiggo-7", "tiggo-7-pro", "tiggo-8", "tiggo-8-pro", "tiggo-8-pro-max", "tiggo-9", "arrizo-5", "arrizo-6", "arrizo-8"],
+  "omoda":["omoda-5", "omoda-7", "omoda-9", "omoda-e5"],
+  "jaecoo":["jaecoo-5", "jaecoo-6", "jaecoo-7", "jaecoo-8"],
+  "jetour":["x70", "x70-plus", "x90", "x90-plus", "dashing", "t2", "daguan", "traveller"],
+  "geely":["coolray", "emgrand", "atlas", "atlas-pro", "azkarra", "okavango", "tugella", "monjaro", "xingyue", "xingyue-l", "preface"],
+  "haval":["h2", "h4", "h5", "h6", "h6-gt", "h9", "jolion", "jolion-pro", "dargo", "raptor", "big-dog", "xiaolong"],
+  "great-wall":["pickup", "wingle", "poer"],
+  "changan":["alsvin", "raeton", "cs15", "cs35", "cs35-plus", "cs55", "cs55-plus", "cs75", "cs75-plus", "cs85", "cs95", "uni-t", "uni-k", "uni-v", "uni-z", "eado", "oshan-x7", "deepal-s7", "deepal-l07"],
+  "gac":["gs3", "gs4", "gs4-plus", "gs8", "ga4", "ga6", "ga8", "emkoo", "emzoom", "aion-s", "aion-y", "aion-y-plus", "aion-v"],
+  "mg":["3", "5", "6", "hs", "hs-plus", "zs", "zs-ev", "rx5", "rx8", "rx9", "marvel-r", "cyberster", "4", "7", "mulan", "one"],
+  "exeed":["tx", "txl", "vx", "lx", "vx-pro", "sterra"],
+  "lynk-co":["01", "02", "03", "05", "06", "08", "09"],
+  "zeekr":["001", "007", "009", "x", "7", "mix"],
+  "nio":["et5", "et5t", "et7", "es6", "es7", "es8", "el6", "el7", "el8", "ec6", "ec7"],
+  "xpeng":["p5", "p7", "g3", "g6", "g9", "x9", "mona-m03"],
+  "li-auto":["l6", "l7", "l8", "l9", "mega"],
+  "tank":["300", "400", "500", "700"],
+  "neta":["v", "u", "gt", "x", "s"],
+  "leapmotor":["c10", "c11", "c01", "t03"],
+  "dongfeng":["rich6", "ax7", "fengshen-ax7"],
+  "jac":["s4", "s7", "js4", "js6", "yiwei"],
+  "baic":["x35", "x55", "x65", "eu5", "eu7", "beijing-x7"],
+  "roewe":["i5", "i6", "rx3", "rx5", "rx8", "ei5", "ei6"],
+  "wuling":["hongguang-mini-ev", "binguo", "starlight"],
+  "voyah":["free", "dreamer", "chasing"],
+  "tata":["tiago", "tigor", "nexon", "nexon-ev", "harrier", "safari", "punch", "punch-ev", "altroz", "curvv"],
+  "mahindra":["thar", "scorpio-n", "xuv300", "xuv400", "xuv700", "bolero"],
+  "maruti-suzuki":["alto", "s-presso", "celerio", "wagon-r", "swift", "baleno", "dzire", "ertiga", "fronx", "grand-vitara", "jimny", "brezza"],
+  "acura":["tlx", "rdx", "mdx", "integra", "zdx"],
+  "dfsk":["glory-580", "glory-ix5", "glory-500"],
+  "foton":["tunland", "sauvana"],
+  "avatr":["11", "12"],
+  "seres":["aito-m5", "aito-m7", "aito-m9"],
 };
 
 const COLORS = [
@@ -342,173 +484,150 @@ const COLORS = [
 ];
 
 const ANGLES_STD = [
-  {v:1,l:"Перед-лево"},{v:5,l:"Бок-лево"},{v:9,l:"Зад"},
-  {v:13,l:"Зад прямо"},{v:17,l:"Зад-право"},{v:21,l:"Бок (широко)"},
-  {v:22,l:"Бок"},{v:23,l:"Перед"},{v:25,l:"Перед-право"},
+  {v:1, l:"Перед-лево"},{v:5, l:"Бок-лево"},{v:9, l:"Зад"},
+  {v:13,l:"Зад прямо"},{v:17,l:"Зад-право"},{v:21,l:"Бок широко"},
+  {v:22,l:"Бок"      },{v:23,l:"Перед"    },{v:25,l:"Перед-право"},
   {v:27,l:"Верх-право"},{v:28,l:"Бок-право"},{v:29,l:"Перед прямо"},
   {v:33,l:"Сверху"},
 ];
-const ANGLES_30 = Array.from({length:32},(_,i)=>({v:200+i,l:`${200+i}`}));
+const ANGLES_30 = Array.from({length:32}, (_,i) => 200+i);
 
-let state = {
-  make:"audi", model:"a4", year:2025, paint:"red", angle:21, angleMode:"list"
+/* ════ STATE ════ */
+const S = {
+  make: "audi", model: "a4", year: 2025,
+  paint: "red", angle: 21, tab: "std",
 };
 
-function getThumbUrl(angle) {
-  const c = document.getElementById("customer").value.trim() || "test";
-  const make = document.getElementById("make").value;
-  const model = document.getElementById("model").value;
-  const year = document.getElementById("year").value;
-  const paint = document.getElementById("paintdesc").value.trim() || state.paint;
-  return `https://cdn.imagin.studio/getImage?customer=${c}&make=${make}&modelFamily=${model}&modelYear=${year}&angle=${angle}&zoomtype=fullscreen&paintdescription=${paint}&width=140`;
+/* ════ THUMB URL ════ */
+function thumbUrl(angle) {
+  const c  = document.getElementById("customer").value.trim() || "test";
+  const mk = document.getElementById("make").value;
+  const mo = document.getElementById("model").value;
+  const yr = document.getElementById("year").value;
+  const pt = document.getElementById("paintdesc").value.trim() || S.paint;
+  return `https://cdn.imagin.studio/getImage?customer=${c}&make=${mk}&modelFamily=${mo}&modelYear=${yr}&angle=${angle}&zoomtype=fullscreen&paintdescription=${pt}&width=160`;
+}
+
+/* ════ ANGLE GRID ════ */
+function buildStdGrid() {
+  const grid = document.getElementById("std-grid");
+  grid.innerHTML = "";
+  ANGLES_STD.forEach(a => {
+    const btn = document.createElement("div");
+    btn.className = "a-btn" + (S.angle === a.v ? " on" : "");
+    btn.dataset.angle = a.v;
+
+    const thumb = document.createElement("div");
+    thumb.className = "a-thumb";
+    const ph  = document.createElement("div"); ph.className = "a-ph";
+    const img = document.createElement("img"); img.alt = "";
+    thumb.appendChild(ph); thumb.appendChild(img);
+
+    const lbl = document.createElement("div");
+    lbl.className = "a-label-text";
+    lbl.textContent = a.l;
+
+    btn.appendChild(thumb); btn.appendChild(lbl);
+
+    // lazy load on hover
+    btn.addEventListener("mouseenter", () => {
+      if (!img.dataset.loaded) {
+        img.src = thumbUrl(a.v);
+        img.onload  = () => { img.classList.add("vis"); ph.style.display = "none"; img.dataset.loaded = "1"; };
+        img.onerror = () => { ph.style.display = "none"; img.dataset.loaded = "1"; };
+      }
+    }, {passive: true});
+
+    btn.onclick = () => selectAngle(a.v);
+    grid.appendChild(btn);
+  });
+}
+
+function buildAllGrid() {
+  const grid = document.getElementById("all-grid");
+  grid.innerHTML = "";
+  ANGLES_30.forEach(v => {
+    const btn = document.createElement("div");
+    btn.className = "a30-btn" + (S.angle === v ? " on" : "");
+    btn.dataset.angle = v;
+    btn.textContent = v;
+    btn.onclick = () => selectAngle(v);
+    grid.appendChild(btn);
+  });
 }
 
 function selectAngle(v) {
-  state.angle = v;
-  document.querySelectorAll("[data-angle]").forEach(b => b.classList.remove("active"));
+  S.angle = v;
+  document.querySelectorAll("[data-angle]").forEach(el => el.classList.remove("on"));
   const el = document.querySelector(`[data-angle="${v}"]`);
-  if(el) el.classList.add("active");
+  if (el) el.classList.add("on");
 }
 
-function setAngleMode(mode) {
-  state.angleMode = mode;
-  document.getElementById("mode-list").classList.toggle("active", mode==="list");
-  document.getElementById("mode-grid").classList.toggle("active", mode==="grid");
-  renderAngles();
+function setAngleTab(tab) {
+  S.tab = tab;
+  document.getElementById("tab-std").classList.toggle("on", tab === "std");
+  document.getElementById("tab-all").classList.toggle("on", tab === "all");
+  document.getElementById("angle-std").style.display = tab === "std" ? "" : "none";
+  document.getElementById("angle-all").style.display = tab === "all" ? "" : "none";
 }
 
-function renderAngles() {
-  const c = document.getElementById("angles-container");
-  c.innerHTML = "";
-  state.angleMode === "list" ? renderList(c) : renderGrid(c);
-}
-
-function renderList(container) {
-  const makeGroup = (label, angles, withThumbs) => {
-    const lbl = document.createElement("div");
-    lbl.className = "angle-group-label";
-    lbl.textContent = label;
-    container.appendChild(lbl);
-    const list = document.createElement("div");
-    list.className = "angle-list";
-    angles.forEach(a => {
-      const item = document.createElement("div");
-      item.className = "angle-list-item" + (withThumbs ? "" : " no-thumb") + (state.angle===a.v?" active":"");
-      item.dataset.angle = a.v;
-
-      if(withThumbs) {
-        const thumbWrap = document.createElement("div");
-        thumbWrap.className = "angle-list-thumb";
-        const ph = document.createElement("div");
-        ph.className = "thumb-ph";
-        ph.innerHTML = "<span></span>";
-        const img = document.createElement("img");
-        img.alt = "";
-        thumbWrap.appendChild(ph);
-        thumbWrap.appendChild(img);
-
-        const obs = new IntersectionObserver((entries, o) => {
-          if(entries[0].isIntersecting) {
-            img.src = getThumbUrl(a.v);
-            img.onload = () => { img.classList.add("loaded"); ph.remove(); };
-            img.onerror = () => { ph.remove(); };
-            o.disconnect();
-          }
-        }, {threshold: 0.1});
-        obs.observe(thumbWrap);
-        item.appendChild(thumbWrap);
-      }
-
-      const info = document.createElement("div");
-      info.className = "angle-list-info";
-      info.innerHTML = `<span class="a-num">${a.v}</span><span class="a-label">${a.l}</span>`;
-      item.appendChild(info);
-      item.onclick = () => selectAngle(a.v);
-      list.appendChild(item);
-    });
-    container.appendChild(list);
-  };
-
-  makeGroup("Стандартные", ANGLES_STD, true);
-  makeGroup("30° вид (200–231)", ANGLES_30, false);
-}
-
-function renderGrid(container) {
-  const makeGroup = (label, angles, lazyOnHover) => {
-    const lbl = document.createElement("div");
-    lbl.className = "angle-group-label";
-    lbl.textContent = label;
-    container.appendChild(lbl);
-    const grid = document.createElement("div");
-    grid.className = "angle-grid";
-    angles.forEach(a => {
-      const btn = document.createElement("button");
-      btn.className = "angle-btn" + (state.angle===a.v?" active":"");
-      btn.dataset.angle = a.v;
-
-      const ph = document.createElement("span");
-      ph.className = "a-placeholder";
-      const img = document.createElement("img");
-      img.alt = "";
-      const num = document.createElement("span");
-      num.className = "a-num";
-      num.textContent = a.v;
-      btn.appendChild(ph); btn.appendChild(img); btn.appendChild(num);
-
-      if(lazyOnHover) {
-        btn.addEventListener("mouseenter", () => {
-          if(!img.dataset.loaded) {
-            img.src = getThumbUrl(a.v);
-            img.onload = () => { img.classList.add("loaded"); ph.classList.add("hidden"); img.dataset.loaded="1"; };
-            img.onerror = () => { ph.classList.add("hidden"); img.dataset.loaded="1"; };
-          }
-        }, {passive:true});
-      } else {
-        ph.classList.add("hidden");
-      }
-
-      btn.onclick = () => selectAngle(a.v);
-      grid.appendChild(btn);
-    });
-    container.appendChild(grid);
-  };
-
-  makeGroup("Стандартные", ANGLES_STD, true);
-  makeGroup("30° вид (200–231)", ANGLES_30, false);
-}
-
-function initMakes() {
+/* ════ MAKES / MODELS DROPDOWNS WITH SEARCH ════ */
+function populateMakes(filter) {
   const sel = document.getElementById("make");
+  const q   = (filter || "").toLowerCase();
+  sel.innerHTML = "";
   Object.keys(MAKES).sort().forEach(m => {
+    const label = m.replace(/-/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+    if (q && !label.toLowerCase().includes(q) && !m.includes(q)) return;
     const o = document.createElement("option");
-    o.value = m;
-    o.textContent = m.replace(/-/g," ").replace(/\b\w/g,c=>c.toUpperCase());
-    if(m===state.make) o.selected=true;
+    o.value = m; o.textContent = label;
+    if (m === S.make) o.selected = true;
     sel.appendChild(o);
   });
-  sel.onchange = () => { state.make=sel.value; updateModels(); };
-  updateModels();
+  if (!sel.value && sel.options.length) sel.options[0].selected = true;
+  S.make = sel.value;
+  populateModels();
 }
 
-function updateModels() {
+function populateModels(filter) {
   const sel = document.getElementById("model");
+  const q   = (filter || "").toLowerCase();
   sel.innerHTML = "";
-  (MAKES[state.make]||[]).forEach(m => {
-    const o=document.createElement("option");
-    o.value=m; o.textContent=m;
-    if(m===state.model) o.selected=true;
+  (MAKES[S.make] || []).forEach(m => {
+    if (q && !m.includes(q)) return;
+    const o = document.createElement("option");
+    o.value = m; o.textContent = m;
+    if (m === S.model) o.selected = true;
     sel.appendChild(o);
   });
-  state.model = sel.value;
-  sel.onchange = () => { state.model=sel.value; };
+  if (!sel.value && sel.options.length) sel.options[0].selected = true;
+  S.model = sel.value;
+}
+
+function initMakesModels() {
+  const makeSearch  = document.getElementById("make-search");
+  const modelSearch = document.getElementById("model-search");
+  const makeSel     = document.getElementById("make");
+  const modelSel    = document.getElementById("model");
+
+  populateMakes();
+
+  makeSearch.oninput = () => populateMakes(makeSearch.value);
+  makeSel.onchange   = () => {
+    S.make = makeSel.value;
+    modelSearch.value = "";
+    populateModels();
+  };
+  modelSearch.oninput = () => populateModels(modelSearch.value);
+  modelSel.onchange   = () => { S.model = modelSel.value; };
 }
 
 function initYears() {
   const sel = document.getElementById("year");
-  for(let y=2026;y>=2010;y--) {
-    const o=document.createElement("option");
-    o.value=y; o.textContent=y;
-    if(y===state.year) o.selected=true;
+  for (let y = 2026; y >= 2010; y--) {
+    const o = document.createElement("option");
+    o.value = y; o.textContent = y;
+    if (y === S.year) o.selected = true;
     sel.appendChild(o);
   }
 }
@@ -516,76 +635,252 @@ function initYears() {
 function initColors() {
   const strip = document.getElementById("color-strip");
   COLORS.forEach(c => {
-    const btn=document.createElement("button");
-    btn.className="color-swatch"+(c.n===state.paint?" active":"");
-    btn.style.background=c.h;
-    btn.style.borderColor=c.b||c.h;
-    btn.title=c.n;
-    btn.onclick=()=>{
-      state.paint=c.n;
-      document.getElementById("paintdesc").value="";
-      document.querySelectorAll(".color-swatch").forEach(b=>b.classList.remove("active"));
-      btn.classList.add("active");
+    const btn = document.createElement("button");
+    btn.className = "swatch" + (c.n === S.paint ? " on" : "");
+    btn.style.background  = c.h;
+    btn.style.borderColor = c.b || c.h;
+    btn.title = c.n;
+    btn.onclick = () => {
+      S.paint = c.n;
+      document.getElementById("paintdesc").value = "";
+      document.querySelectorAll(".swatch").forEach(b => b.classList.remove("on"));
+      btn.classList.add("on");
     };
     strip.appendChild(btn);
   });
-  document.getElementById("paintdesc").oninput=e=>{
-    if(e.target.value){
-      state.paint=e.target.value;
-      document.querySelectorAll(".color-swatch").forEach(b=>b.classList.remove("active"));
+  document.getElementById("paintdesc").oninput = e => {
+    if (e.target.value) {
+      S.paint = e.target.value;
+      document.querySelectorAll(".swatch").forEach(b => b.classList.remove("on"));
     }
   };
 }
 
+/* ════ URL ════ */
 function buildUrl() {
-  const customer=document.getElementById("customer").value.trim()||"test";
-  const make=document.getElementById("make").value;
-  const model=document.getElementById("model").value;
-  const year=document.getElementById("year").value;
-  const zt=document.getElementById("zoomtype").value;
-  const mr=document.getElementById("modelRange").value.trim();
-  const mv=document.getElementById("modelVariant").value.trim();
-  const paint=document.getElementById("paintdesc").value.trim()||state.paint;
-  let url=`https://cdn.imagin.studio/getImage?customer=${customer}&make=${make}&modelFamily=${model}&modelYear=${year}&angle=${state.angle}&zoomtype=${zt}&paintdescription=${paint}`;
-  if(mr) url+=`&modelRange=${mr}`;
-  if(mv) url+=`&modelVariant=${mv}`;
+  const customer = document.getElementById("customer").value.trim() || "test";
+  const make     = document.getElementById("make").value;
+  const model    = document.getElementById("model").value;
+  const year     = document.getElementById("year").value;
+  const zt       = document.getElementById("zoomtype").value;
+  const mr       = document.getElementById("modelRange").value.trim();
+  const mv       = document.getElementById("modelVariant").value.trim();
+  const paint    = document.getElementById("paintdesc").value.trim() || S.paint;
+  let url = `https://cdn.imagin.studio/getImage?customer=${customer}&make=${make}&modelFamily=${model}&modelYear=${year}&angle=${S.angle}&zoomtype=${zt}&paintdescription=${paint}`;
+  if (mr) url += `&modelRange=${mr}`;
+  if (mv) url += `&modelVariant=${mv}`;
   return url;
 }
 
 function renderUrl(url) {
-  const base="https://cdn.imagin.studio/getImage?";
-  const parts=url.replace(base,"").split("&").map(p=>{
-    const i=p.indexOf("=");
-    return `<span class="param-key">${p.slice(0,i)}=</span><span class="param-val">${p.slice(i+1)}</span>`;
-  }).join('<span style="color:var(--text3)">&amp;</span>');
-  document.getElementById("url-bar").innerHTML=`<span style="color:var(--text3)">${base}</span>${parts}`;
+  const base  = "https://cdn.imagin.studio/getImage?";
+  const parts = url.replace(base,"").split("&").map(p => {
+    const i = p.indexOf("=");
+    return `<span class="pk">${p.slice(0,i)}=</span><span class="pv">${p.slice(i+1)}</span>`;
+  }).join('<span style="color:var(--t3)">&amp;</span>');
+  document.getElementById("url-bar").innerHTML = `<span style="color:var(--t3)">${base}</span>${parts}`;
 }
 
+/* ════ HISTORY ════ */
+const HISTORY_MAX = 8;
+let history = JSON.parse(localStorage.getItem('img_history') || '[]');
+
+function saveHistory(url, label) {
+  history = history.filter(h => h.url !== url);
+  history.unshift({url, label, ts: Date.now()});
+  if (history.length > HISTORY_MAX) history = history.slice(0, HISTORY_MAX);
+  localStorage.setItem('img_history', JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = document.getElementById('history-list');
+  if (!history.length) {
+    list.innerHTML = '<div class="h-empty">Пусто — загрузи первое фото</div>';
+    return;
+  }
+  list.innerHTML = '';
+  history.forEach(h => {
+    const item = document.createElement('div');
+    item.className = 'h-item';
+    const ago = formatAgo(h.ts);
+    item.innerHTML = `<span class="h-title">${h.label}</span><span class="h-sub">${ago}</span>`;
+    item.onclick = () => { restoreFromUrl(h.url); };
+    list.appendChild(item);
+  });
+}
+
+function formatAgo(ts) {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 60) return 'только что';
+  if (s < 3600) return Math.floor(s/60) + ' мин';
+  if (s < 86400) return Math.floor(s/3600) + ' ч';
+  return Math.floor(s/86400) + ' д';
+}
+
+function restoreFromUrl(url) {
+  const p = new URLSearchParams(url.split('?')[1]);
+  const setVal = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
+  setVal('customer', p.get('customer'));
+  setVal('zoomtype', p.get('zoomtype'));
+  setVal('modelRange', p.get('modelRange') || '');
+  setVal('modelVariant', p.get('modelVariant') || '');
+  // make + model
+  const mk = p.get('make'), mo = p.get('modelFamily');
+  if (mk) {
+    S.make = mk;
+    document.getElementById('make-search').value = '';
+    populateMakes();
+    document.getElementById('make').value = mk;
+    S.make = mk;
+  }
+  if (mo) {
+    S.model = mo;
+    document.getElementById('model-search').value = '';
+    populateModels();
+    document.getElementById('model').value = mo;
+    S.model = mo;
+  }
+  // year
+  if (p.get('modelYear')) document.getElementById('year').value = p.get('modelYear');
+  // paint
+  if (p.get('paintdescription')) {
+    S.paint = p.get('paintdescription');
+    document.getElementById('paintdesc').value = S.paint;
+    document.querySelectorAll('.swatch').forEach(b => b.classList.remove('on'));
+    const sw = [...document.querySelectorAll('.swatch')].find(b => b.title === S.paint);
+    if (sw) sw.classList.add('on');
+  }
+  // angle
+  const ang = parseInt(p.get('angle'));
+  if (ang) { S.angle = ang; document.querySelectorAll('[data-angle]').forEach(el => el.classList.toggle('on', parseInt(el.dataset.angle) === ang)); }
+  // trigger load
+  loadPreview();
+}
+
+/* ════ STALE ════ */
+function markStale() {
+  const card = document.getElementById('preview-card');
+  if (!card.querySelector('img')) return;
+  if (card.classList.contains('stale')) return;
+  card.classList.add('stale');
+  const badge = document.createElement('div');
+  badge.className = 'stale-badge';
+  badge.id = 'stale-badge';
+  badge.textContent = 'обновить ↵';
+  card.appendChild(badge);
+}
+
+function clearStale() {
+  const card = document.getElementById('preview-card');
+  card.classList.remove('stale');
+  const b = document.getElementById('stale-badge');
+  if (b) b.remove();
+}
+
+/* ════ ACTIONS ════ */
 function loadPreview() {
-  const url=buildUrl(); renderUrl(url);
-  const card=document.getElementById("preview-card");
-  card.innerHTML=`<div class="preview-loading"><div class="spinner"></div></div>`;
-  const img=document.createElement("img");
-  img.src=url;
-  img.onload=()=>{card.innerHTML="";card.appendChild(img);};
-  img.onerror=()=>{card.innerHTML=`<div class="preview-placeholder"><div class="big">✕</div><p>Не удалось загрузить<br>Проверь Customer ID или параметры</p></div>`;};
+  const url = buildUrl(); renderUrl(url); clearStale();
+  const card = document.getElementById("preview-card");
+  card.innerHTML = `<div class="preview-load"><div class="spinner"></div></div>`;
+  const img = new Image();
+  img.src = url;
+  img.onload = () => {
+    card.innerHTML = "";
+    card.appendChild(img);
+    // meta
+    const meta = document.getElementById('meta-bar');
+    meta.classList.add('vis');
+    document.getElementById('meta-angle').textContent = S.angle;
+    // fetch size via HEAD-ish: use performance API if available
+    fetch(url).then(r => {
+      const cl = r.headers.get('content-length');
+      document.getElementById('meta-size').textContent = cl ? Math.round(cl/1024) + ' KB' : '—';
+    }).catch(() => {});
+    document.getElementById('meta-px').textContent = img.naturalWidth + '×' + img.naturalHeight;
+    // save history
+    const mk = toTitle(document.getElementById('make').value);
+    const mo = toTitle(document.getElementById('model').value);
+    const yr = document.getElementById('year').value;
+    const pt = document.getElementById('paintdesc').value.trim() || S.paint;
+    saveHistory(url, `${mk} ${mo} ${yr} · ${pt} · ${S.angle}°`);
+  };
+  img.onerror = () => {
+    card.innerHTML = `<div class="preview-ph">
+      <div class="big">✕</div>
+      <p style="color:var(--t3)">Изображение не найдено</p>
+      <p style="margin-top:6px;font-size:11px;color:var(--t3)">Модель может не поддерживаться<br>для этого года или марки</p>
+    </div>`;
+  };
 }
 
-function copyUrl() {
-  const url=buildUrl(); renderUrl(url);
-  navigator.clipboard.writeText(url).then(()=>{
-    const btn=document.querySelector(".actions .btn:nth-child(2)");
-    const orig=btn.textContent; btn.textContent="Скопировано ✓";
-    setTimeout(()=>btn.textContent=orig,1800);
-  }).catch(()=>{});
+async function copyImage() {
+  const btn   = document.getElementById("btn-copy-img");
+  const imgEl = document.querySelector("#preview-card img");
+  if (!imgEl) { flashBtn(btn, "Сначала загрузи"); return; }
+  const orig = btn.innerHTML;
+  btn.textContent = "Копирую…";
+  try {
+    const res  = await fetch(imgEl.src);
+    const blob = await res.blob();
+    const png  = await new Promise(res => {
+      const i = new Image(), u = URL.createObjectURL(blob);
+      i.onload = () => { const c = document.createElement("canvas"); c.width = i.naturalWidth; c.height = i.naturalHeight; c.getContext("2d").drawImage(i,0,0); URL.revokeObjectURL(u); c.toBlob(res,"image/png"); };
+      i.src = u;
+    });
+    await navigator.clipboard.write([new ClipboardItem({"image/png": png})]);
+    flashBtn(btn, "Скопировано ✓", orig);
+  } catch(e) {
+    flashBtn(btn, "Ошибка :(", orig);
+  }
 }
 
-function openUrl(){window.open(buildUrl(),"_blank");}
+function toTitle(s) {
+  return s.replace(/-/g," ").replace(/\b\w/g, c => c.toUpperCase());
+}
 
-initMakes();
+function copyMakeModel() {
+  const make  = toTitle(document.getElementById("make").value);
+  const model = toTitle(document.getElementById("model").value);
+  const text  = `${make} ${model}`;
+  navigator.clipboard.writeText(text).catch(() => {});
+  const btn = event.currentTarget;
+  const orig = btn.innerHTML;
+  flashBtn(btn, `${text} ✓`, orig);
+}
+
+function flashBtn(btn, text, orig) {
+  btn.textContent = text;
+  setTimeout(() => { if (orig) btn.innerHTML = orig; }, 2000);
+}
+
+function openUrl() { window.open(buildUrl(), "_blank"); }
+
+/* ════ STALE WATCHERS ════ */
+function watchStale() {
+  const ids = ['make','model','year','zoomtype','paintdesc','modelRange','modelVariant','customer'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.addEventListener('change', markStale); el.addEventListener('input', markStale); }
+  });
+  // angle selection also marks stale
+  const origSelect = selectAngle;
+  window.selectAngle = v => { origSelect(v); markStale(); };
+}
+
+/* ════ ENTER KEY ════ */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.target.matches('button')) loadPreview();
+});
+
+/* ════ INIT ════ */
+initMakesModels();
 initYears();
 initColors();
-renderAngles();
+buildStdGrid();
+buildAllGrid();
+renderHistory();
+watchStale();
 </script>
 </body>
 </html>
