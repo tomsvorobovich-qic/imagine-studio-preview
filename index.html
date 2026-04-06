@@ -214,6 +214,27 @@ input[type=text]::placeholder { color: var(--t3); }
 .h-title { font-size: 12px; color: var(--t2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .h-sub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--t3); flex-shrink: 0; }
 .h-empty { font-size: 12px; color: var(--t3); padding: 4px 8px; }
+
+/* custom make/model override */
+.custom-toggle { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--t3); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; background: none; border: none; padding: 0; margin-top: 2px; transition: color .15s; }
+.custom-toggle:hover { color: var(--t2); }
+.custom-inputs { display: none; margin-top: 6px; }
+.custom-inputs.vis { display: flex; flex-direction: column; gap: 6px; }
+.custom-inputs input { font-family: 'DM Mono', monospace; font-size: 12px; }
+.select-inputs { }
+.select-inputs.hidden { display: none; }
+
+.load-thumbs-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-bottom: 7px;
+  padding: 4px 9px; border-radius: var(--r);
+  border: 1px solid var(--b); background: var(--bg3);
+  color: var(--t3); font-family: 'DM Mono', monospace;
+  font-size: 10px; text-transform: uppercase; letter-spacing: .07em;
+  cursor: pointer; transition: all .15s;
+}
+.load-thumbs-btn:hover { border-color: var(--b2); color: var(--t2); }
+.load-thumbs-btn.done { color: var(--acc); border-color: var(--acc); background: var(--acc-d); cursor: default; }
 </style>
 </head>
 <body>
@@ -279,6 +300,20 @@ input[type=text]::placeholder { color: var(--t3); }
       </div>
     </div>
 
+    <button class="custom-toggle" id="custom-toggle" onclick="toggleCustom()">+ ввести вручную</button>
+    <div class="custom-inputs" id="custom-inputs">
+      <div class="frow">
+        <div class="field">
+          <label class="lbl">Марка (вручную)</label>
+          <input type="text" id="make-custom" placeholder="ford, geely…">
+        </div>
+        <div class="field">
+          <label class="lbl">Модель (вручную)</label>
+          <input type="text" id="model-custom" placeholder="mondeo, emgrand…">
+        </div>
+      </div>
+    </div>
+
     <div class="field" style="margin-top:8px">
       <label class="lbl">Год</label>
       <select id="year"></select>
@@ -328,6 +363,10 @@ input[type=text]::placeholder { color: var(--t3); }
         <button class="tgl-btn"    id="tab-all" onclick="setAngleTab('all')">Все (30°)</button>
       </div>
     </div>
+    <button class="load-thumbs-btn" id="load-thumbs-btn" onclick="loadAngleThumbs()">
+      <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 5.5l1 1L7.5 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Загрузить превью ракурсов
+    </button>
     <div id="angle-std">
       <div class="angle-grid" id="std-grid"></div>
     </div>
@@ -371,6 +410,9 @@ input[type=text]::placeholder { color: var(--t3); }
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M2 10V2h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Копировать название
     </button>
+    <button class="btn btn-icon" onclick="randomize()" title="Случайная машина">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 10c2 0 3-1.5 4-3.5S7 3 9 3h2.5M9 1l2.5 2L9 5M1 4c2 0 3 1.5 4 3.5S7 11 9 11h2.5M9 9l2.5 2L9 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
     <button class="btn btn-icon" onclick="openUrl()" title="Открыть в новой вкладке">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6 3H3a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M9 2h3v3M8 6l4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
@@ -410,7 +452,7 @@ const MAKES = {
   "smart":["fortwo", "forfour", "1", "3"],
   "polestar":["2", "3", "4"],
   "lotus":["eletre", "emira", "evija"],
-  "ford":["figo", "fiesta", "focus", "fusion", "mustang", "mustang-mach-e", "explorer", "expedition", "bronco", "bronco-sport", "ranger", "f-150", "f-150-lightning", "everest", "territory", "edge", "escape", "maverick", "mondeo", "kuga", "puma"],
+  "ford":["figo", "fiesta", "focus", "mustang", "mustang-mach-e", "explorer", "expedition", "bronco", "bronco-sport", "ranger", "f-150", "f-150-lightning", "everest", "territory", "edge", "escape", "maverick", "kuga", "puma", "mondeo", "fusion", "transit", "transit-custom"],
   "chevrolet":["spark", "aveo", "onix", "cruze", "malibu", "camaro", "corvette", "tahoe", "suburban", "traverse", "trailblazer", "trax", "captiva", "colorado", "silverado", "silverado-ev", "blazer", "equinox", "equinox-ev"],
   "gmc":["terrain", "acadia", "yukon", "yukon-xl", "sierra", "canyon", "envoy", "envista"],
   "dodge":["charger", "challenger", "durango", "hornet"],
@@ -509,9 +551,35 @@ function thumbUrl(angle) {
 }
 
 /* ════ ANGLE GRID ════ */
+function loadAngleThumbs() {
+  const btn = document.getElementById('load-thumbs-btn');
+  btn.textContent = 'Загружаю…';
+  btn.disabled = true;
+  const imgs = document.querySelectorAll('#std-grid .a-thumb img');
+  let loaded = 0;
+  imgs.forEach(img => {
+    if (img.dataset.loaded) { loaded++; if (loaded === imgs.length) done(); return; }
+    img.src = thumbUrl(parseInt(img.closest('.a-btn').dataset.angle));
+    img.onload = () => {
+      img.classList.add('vis');
+      img.closest('.a-thumb').querySelector('.a-ph').style.display = 'none';
+      img.dataset.loaded = '1';
+      loaded++;
+      if (loaded === imgs.length) done();
+    };
+    img.onerror = () => { loaded++; if (loaded === imgs.length) done(); };
+  });
+  function done() {
+    btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 5.5l1 1L7.5 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg> Загружено';
+    btn.classList.add('done');
+  }
+}
+
 function buildStdGrid() {
   const grid = document.getElementById("std-grid");
   grid.innerHTML = "";
+  const btn = document.getElementById('load-thumbs-btn');
+  if (btn) { btn.innerHTML = '<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><circle cx="5.5" cy="5.5" r="4.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 5.5l1 1L7.5 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg> Загрузить превью ракурсов'; btn.classList.remove('done'); btn.disabled = false; }
   ANGLES_STD.forEach(a => {
     const btn = document.createElement("div");
     btn.className = "a-btn" + (S.angle === a.v ? " on" : "");
@@ -657,10 +725,74 @@ function initColors() {
 }
 
 /* ════ URL ════ */
+function toggleCustom() {
+  const ci = document.getElementById('custom-inputs');
+  const sw = document.getElementById('select-row');
+  const ms = document.getElementById('make-search').closest('.field');
+  const mod = document.getElementById('model-search').closest('.field');
+  const isVis = ci.classList.toggle('vis');
+  const btn = document.getElementById('custom-toggle');
+  btn.textContent = isVis ? '← вернуться к списку' : '+ ввести вручную';
+  // hide/show selects
+  [ms, mod].forEach(el => el.style.opacity = isVis ? '0.3' : '1');
+  [ms, mod].forEach(el => { el.querySelector('select').disabled = isVis; el.querySelector('input').disabled = isVis; });
+  if (isVis) {
+    document.getElementById('make-custom').focus();
+  }
+}
+
+function getCustomMode() {
+  return document.getElementById('custom-inputs').classList.contains('vis');
+}
+
+function randomize() {
+  const makeKeys = Object.keys(MAKES);
+  const randMake = makeKeys[Math.floor(Math.random() * makeKeys.length)];
+  const models   = MAKES[randMake];
+  const randModel = models[Math.floor(Math.random() * models.length)];
+  const randYear = 2015 + Math.floor(Math.random() * 11); // 2015–2025
+  const randColor = COLORS[Math.floor(Math.random() * COLORS.length)];
+
+  // exit custom mode if active
+  const ci = document.getElementById('custom-inputs');
+  if (ci.classList.contains('vis')) toggleCustom();
+
+  // set make
+  S.make = randMake;
+  document.getElementById('make-search').value = '';
+  populateMakes();
+  document.getElementById('make').value = randMake;
+  S.make = randMake;
+
+  // set model
+  S.model = randModel;
+  document.getElementById('model-search').value = '';
+  populateModels();
+  document.getElementById('model').value = randModel;
+  S.model = randModel;
+
+  // set year
+  document.getElementById('year').value = randYear;
+
+  // set color
+  S.paint = randColor.n;
+  document.getElementById('paintdesc').value = '';
+  document.querySelectorAll('.swatch').forEach(b => b.classList.remove('on'));
+  const sw = [...document.querySelectorAll('.swatch')].find(b => b.title === randColor.n);
+  if (sw) sw.classList.add('on');
+
+  markStale();
+  loadPreview();
+}
+
 function buildUrl() {
   const customer = document.getElementById("customer").value.trim() || "test";
-  const make     = document.getElementById("make").value;
-  const model    = document.getElementById("model").value;
+  const make     = getCustomMode()
+    ? (document.getElementById("make-custom").value.trim().toLowerCase().replace(/\s+/g,"-") || document.getElementById("make").value)
+    : document.getElementById("make").value;
+  const model    = getCustomMode()
+    ? (document.getElementById("model-custom").value.trim().toLowerCase().replace(/\s+/g,"-") || document.getElementById("model").value)
+    : document.getElementById("model").value;
   const year     = document.getElementById("year").value;
   const zt       = document.getElementById("zoomtype").value;
   const mr       = document.getElementById("modelRange").value.trim();
